@@ -346,7 +346,8 @@ class TaskPanelsAliases(Task):
                        "issues_created", "issues_updated"]
         },
         "google_hits": {
-            "raw": ["google-hits"]
+            "raw": ["google-hits-raw"],
+            "enrich": ["google-hits"]
         },
         "jenkins": {
             "raw": ["jenkins-raw"],
