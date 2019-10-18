@@ -21,6 +21,7 @@
 #     Quan Zhou <quan@bitergia.com>
 #
 
+import base64
 import json
 import logging
 
@@ -32,6 +33,7 @@ from copy import deepcopy
 
 from sirmordred.task import Task
 from sirmordred.eclipse_projects_lib import compose_title, compose_projects_json
+from perceval.backends.core.gitlab import GitLabClient
 
 logger = logging.getLogger(__name__)
 
@@ -140,16 +142,20 @@ class TaskProjects(Task):
     def __get_projects_from_url(self):
         config = self.conf
         projects_url = config['projects']['projects_url']
+        projects_token = config['projects'].get('projects_token', None)
         projects_file = config['projects']['projects_file']
 
+        gl = GitLabClient('Bitergia', 'lab', projects_token, sleep_for_rate=True)
         logger.info("Getting projects file from URL: %s ", projects_url)
-        res = requests.get(projects_url)
+        res = gl.fetch(projects_url)
         res.raise_for_status()
-        projects = res.json()
+        res_json = res.json()
+        projects = base64.b64decode(res_json['content']).decode("utf-8")
+        projects_json = json.loads(projects)
         with open(projects_file, "w") as fprojects:
-            json.dump(projects, fprojects, indent=True)
+            json.dump(projects_json, fprojects, indent=True)
 
-        return projects
+        return projects_json
 
     def __get_eclipse_projects(self):
         config = self.conf

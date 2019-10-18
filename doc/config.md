@@ -61,6 +61,7 @@ Use python mordred/config.py to generate it.
  * **load_eclipse** (bool: False): Load the projects from Eclipse
  * **projects_file** (str: projects.json): Projects file path with repositories to be collected group by projects
  * **projects_url** (str: None): Projects file URL
+ * **projects_token** (str: None): GitLab token to read remote projects file
 ### [sortinghat] 
 
  * **affiliate** (bool: True): Affiliate identities to organizations (**Required**)

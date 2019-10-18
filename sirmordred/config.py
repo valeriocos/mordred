@@ -190,6 +190,12 @@ class Config():
                     "type": str,
                     "description": "Projects file URL"
                 },
+                "projects_token": {
+                    "optional": True,
+                    "default": None,
+                    "type": str,
+                    "description": "GitLab token to access protected remote projects.json file"
+                },
                 "load_eclipse": {
                     "optional": True,
                     "default": False,
